@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - SHADOWBYTE808-HACKERS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .profile-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .profile-card {
+            background: rgba(0, 255, 100, 0.05);
+            border: 2px solid #00ff64;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 255, 100, 0.3);
+            animation: cardGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes cardGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 100, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 100, 0.6); }
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-avatar {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: floatAvatar 3s ease-in-out infinite;
+        }
+
+        @keyframes floatAvatar {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .profile-name {
+            font-size: 32px;
+            color: #00ff64;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(0, 255, 100, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .profile-rank {
+            color: #00ff64;
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .profile-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 255, 100, 0.3);
+        }
+
+        .section-label {
+            color: #00ff64;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .section-content {
+            color: #00ff64;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .contact-info {
+            background: rgba(0, 255, 100, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .contact-label {
+            color: #00ff64;
+            opacity: 0.8;
+        }
+
+        .contact-value {
+            color: #00ff64;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-hire {
+            flex: 1;
+            padding: 12px 20px;
+            background: #00ff64;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 100, 0.5);
+        }
+
+        .btn-hire:hover {
+            background: #00ff64;
+            box-shadow: 0 0 40px rgba(0, 255, 100, 0.8);
+            transform: scale(1.05);
+        }
+
+        .btn-back {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            color: #00ff64;
+            border: 2px solid #00ff64;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: rgba(0, 255, 100, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 100, 0.5);
+        }
+
+        .error-message {
+            color: #ff0064;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 16px;
+        }
+
+        .error-message a {
+            color: #00ff64;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-card" id="profileCard">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar"></div>
+                <h1 class="profile-name" id="profileName"></h1>
+                <div class="profile-rank" id="profileRank"></div>
+            </div>
+
+            <div class="profile-section">
+                <div class="section-label">Specialization</div>
+                <div class="section-content" id="profileSpec"></div>
+            </div>
+
+            <div class="profile-section">
+                <div class="section-label">About</div>
+                <div class="section-content" id="profileDesc"></div>
+            </div>
+
+            <div class="profile-section">
+                <div class="section-label">Contact Information</div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-label">Email:</span>
+                        <span class="contact-value" id="profileEmail"></span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Telegram:</span>
+                        <span class="contact-value" id="profileTelegram"></span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Response Time:</span>
+                        <span class="contact-value" id="profileResponse"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-hire" id="hireBtn">Hire Now</button>
+                <button class="btn-back" id="backBtn">Back</button>
+            </div>
+        </div>
+
+        <div id="errorContainer"></div>
+    </div>
+
+    <script>
+        // Load hacker data from localStorage
+        const selectedHacker = JSON.parse(localStorage.getItem("selectedHacker"))
+        const profileCard = document.getElementById("profileCard")
+        const errorContainer = document.getElementById("errorContainer")
+        const hireBtn = document.getElementById("hireBtn")
+        const backBtn = document.getElementById("backBtn")
+
+        if (selectedHacker) {
+            // Generate contact info based on hacker
+            const email = `contact.${selectedHacker.name.toLowerCase()}@darknet.io`
+            const telegram = `@${selectedHacker.name.toLowerCase()}_secure`
+            const responseTime = ["2-4 hours", "24 hours", "1-2 hours"][Math.floor(Math.random() * 3)]
+
+            // Populate profile
+            document.getElementById("profileAvatar").textContent = selectedHacker.avatar
+            document.getElementById("profileName").textContent = selectedHacker.name
+            document.getElementById("profileRank").textContent = `[${selectedHacker.rank}] VERIFIED`
+            document.getElementById("profileSpec").textContent = selectedHacker.specialization
+            document.getElementById("profileDesc").textContent = selectedHacker.description
+            document.getElementById("profileEmail").textContent = email
+            document.getElementById("profileTelegram").textContent = telegram
+            document.getElementById("profileResponse").textContent = responseTime
+
+            // Hire button functionality
+            hireBtn.addEventListener("click", () => {
+                alert(`Initiating contact with ${selectedHacker.name}...\n\nEmail: ${email}\n\nTelegram: ${telegram}\n\nSend message and wait for hacker's reply for further instructions.`)
+            })
+        } else {
+            // Show error if no hacker data
+            profileCard.style.display = "none"
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    <p>No hacker selected. Please go back and select a hacker first.</p>
+                    <p><a onclick="window.location.href='index.html'">Return to Home</a></p>
+                </div>
+            `
+        }
+
+        // Back button
+        backBtn.addEventListener("click", () => {
+            window.location.href = "index.html"
+        })
+    </script>
+</body>
+</html>

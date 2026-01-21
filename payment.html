@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Price of Hack - HACKER'S CLOUD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a2332;
+            --primary-blue: #003366;
+            --accent-orange: #ff8c00;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #666;
+            --text-dark: #333;
+            --footer-bg: #1a1f2e;
+            --link-blue: #0066cc;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--text-dark);
+            background-color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color: #fff;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-blue);
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        .description {
+            color: var(--dark-gray);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--light-gray);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .btn-orange {
+            background-color: var(--accent-orange);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-orange:hover {
+            background-color: #ff7f00;
+        }
+
+        /* Pricing Section */
+        .pricing-header {
+            margin-bottom: 15px;
+        }
+
+        .pricing-header h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-header p {
+            color: var(--link-blue);
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        td a {
+            color: var(--link-blue);
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 50px;
+        }
+
+        .faq-item {
+            border: 1px solid var(--medium-gray);
+            margin-bottom: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .faq-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--light-gray);
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s;
+        }
+
+        .faq-header:hover {
+            background-color: #efefef;
+        }
+
+        .faq-header h3 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .faq-icon {
+            font-size: 20px;
+            color: var(--text-dark);
+            transition: transform 0.3s;
+        }
+
+        .faq-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 20px;
+        }
+
+        .faq-content.open {
+            max-height: 500px;
+            padding: 20px;
+        }
+
+        .faq-content p {
+            color: var(--dark-gray);
+            line-height: 1.8;
+        }
+
+        .scroll-top {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .scroll-top-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: #ccc;
+            padding: 40px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 12px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header style="background-color:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.1);position:sticky;top:0;z-index:50;">
+        <div style="max-width:1200px;margin:0 auto;padding:0 1rem;">
+      
+          <!-- Header Content -->
+          <div style="display:flex;align-items:center;justify-content:space-between;height:64px;">
+      
+            <!-- Logo -->
+            <div style="flex-shrink:0;">
+              <a href="index.html" style="text-decoration:none;">
+                <img src="./images/hacker.png" alt="Company Logo" style="height:45px;">
+              </a>
+            </div>
+      
+            <!-- Desktop Navigation -->
+            <nav style="display:flex;gap:2rem;align-items:center;" class="desktop-nav">
+              <a href="./index.html" style="color:#374151;text-decoration:none;font-weight:500;">Home</a>
+              <a href="how.html" style="color:#374151;text-decoration:none;font-weight:500;">How it Works</a>
+              <a href="#payment" style="color:#374151;text-decoration:none;font-weight:500;">Payment</a>
+              
+            </nav>
+      
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" style="display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;" id="menuBtn">
+              <span style="width:25px;height:3px;background:#374151;border-radius:2px;"></span>
+              <span style="width:25px;height:3px;background:#374151;border-radius:2px;"></span>
+              <span style="width:25px;height:3px;background:#374151;border-radius:2px;"></span>
+            </button>
+      
+          </div>
+      
+          <!-- Mobile Navigation -->
+          <nav id="mobileMenu" style="display:none;flex-direction:column;padding:1rem 0;border-top:1px solid #e5e7eb;">
+            <a href="./index.html" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">Home</a>
+            <a href="how.html" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">How it Works</a>
+            <a href="#payment" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">Payment</a>
+            <a href="hacker-profile.html" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">Find a Hacker</a>
+          </nav>
+      
+        </div>
+      </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="title">The Price of Hack on Professional Hacking Services – Price & Payment</h1>
+
+        <p class="subtitle">– Affordable Price & Payment to Hire a Hacker</p>
+
+        <p class="description">
+            Your hacker completes the job and submits the findings to the site's technical team. The site then emails you the invoice with payment terms and instructions. Pay to the instructions and the site only releases payment to the hacker after you approve the delivery within 72 hours.
+        </p>
+
+        <p class="description">
+            You can pay by all major cards, PayPal (selected countries only), Bitcoin and gift cards. This ensures that your personal or payment information is not attached to the site. If a hacker breaches privacy or conduct codes or asks for money, report to <a href="mailto:hackerscloudteamhelps@gmail.com" style="color: var(--link-blue);">hackerscloudteamhelps@gmail.com</a>
+        </p>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <img 
+            src="./images/what2.jfif" 
+            alt="Image"
+            style="width: 100%; max-width: 350px; height: auto;"
+          >
+          <br>
+           <a href="find.html"> <button class="btn-orange">Get your Hacker</button></a>
+        </div>
+
+        <!-- Pricing Section -->
+        <div class="pricing-header">
+            <h2>What is the price of hack?</h2>
+            <p>This price guide below is based on historical data and standard variation.</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Low Price</th>
+                    <th>High Price</th>
+                    <th>Mean Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#">Social Media</a></td>
+                    <td>USD 440</td>
+                    <td>USD 1720</td>
+                    <td>USD 1000</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Email</a></td>
+                    <td>USD 500</td>
+                    <td>USD 1280</td>
+                    <td>USD 800</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Website</a></td>
+                    <td>USD 1460</td>
+                    <td>USD 2800</td>
+                    <td>USD 2000</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Phone</a></td>
+                    <td>USD 780</td>
+                    <td>USD 1530</td>
+                    <td>USD 1000</td>
+                </tr>
+                <tr>
+                    <td><a href="#">University Grade</a></td>
+                    <td>USD 1560</td>
+                    <td>USD 4200</td>
+                    <td>USD 1600</td>
+                </tr>
+                <tr>
+                    <td><a href="#">Credit Score</a></td>
+                    <td>USD 1440</td>
+                    <td>USD 4000</td>
+                    <td>USD 2000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>How do I trust a hacker?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>Be cynical in this industry. Engage and pay through the site and we will ensure fairness between both parties.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Do I pay hackers directly?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>yes, all payments are processed through our secure platform to protect both parties.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>How can I avoid fraud?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>Always use the escrow system, verify hacker credentials, and better communication.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Can I pay by my credit card?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>Yes, we accept all major credit cards, PayPal, Bitcoin, and gift cards for maximum convenience.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Will my job be completed by hackers with 100% guarantee?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>We cannot guarantee 100% success, but we verify all hackers and hold them accountable for quality work.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Do I pay before the work?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>No, payment is held in escrow until you approve the work and verify the results.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Can I dispute if something goes wrong?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>Yes, we have a dispute resolution system to ensure fair outcomes for both parties.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Can a minor order a job?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>No, all users must be 18+ years old to use our platform.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Do you provide proof of work?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>Yes, hackers must provide detailed evidence and documentation of completed work.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header" onclick="toggleFAQ(this)">
+                    <h3>Does the victim know about the hack?</h3>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-content">
+                    <p>That depends on the nature of the job. Some hacks are detectable, others are not.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll to Top -->
+        <div class="scroll-top">
+            <button class="scroll-top-btn" onclick="scrollToTop()">↑</button>
+        </div>
+    </div>
+    <footer style="background-color:#111827;color:#d1d5db;padding:4rem 1rem 2rem;">
+        <div style="max-width:1200px;margin:0 auto;padding:0 1rem;">
+      
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:3rem;margin-bottom:3rem;">
+      
+            <div style="display:flex;flex-direction:column;">
+              <h3 style="color:#ffffff;font-weight:700;margin-bottom:1rem;font-size:0.95rem;">Company</h3>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;padding:0;margin:0;">
+                <li><a href="about.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">About Us</a></li>
+                <li><a href="how.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">How it Works</a></li>
+                <li><a href="payment.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Price & Payment</a></li>
+                <li><a href="https://t.me/ProfessionalHackerZeit" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Post New Job – Hire a Hacker</a></li>
+              </ul>
+            </div>
+      
+            <div style="display:flex;flex-direction:column;">
+              <h3 style="color:#ffffff;font-weight:700;margin-bottom:1rem;font-size:0.95rem;">Services</h3>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;padding:0;margin:0;">
+                <li><a href="./social.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Phone Hackers</a></li>
+                <li><a href="./social.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Social Media Hackers</a></li>
+                <li><a href="./social.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Email Hackers</a></li>
+                <li><a href="./social.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Facebook Hackers</a></li>
+                <li><a href="./whatsapp.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">WhatsApp Hackers</a></li>
+                <li><a href="./insta.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Instagram Hackers</a></li>
+                <li><a href="./social.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Twitter Hackers</a></li>
+              </ul>
+            </div>
+      
+            <div style="display:flex;flex-direction:column;">
+              <h3 style="color:#ffffff;font-weight:700;margin-bottom:1rem;font-size:0.95rem;">Resources</h3>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;padding:0;margin:0;">
+                <li><a href="https://t.me/ProfessionalHackerZeit" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Contact</a></li>
+                <li><a href="./disc.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Disclaimer</a></li>
+                <li><a href="policy.html" style="color:#d1d5db;text-decoration:none;font-size:0.9rem;">Privacy Policy</a></li>
+              </ul>
+            </div>
+      
+            <div style="display:flex;flex-direction:column;">
+              <h3 style="color:#ffffff;font-weight:700;margin-bottom:1rem;font-size:0.95rem;">Follow Us</h3>
+              <div style="display:flex;gap:1rem;">
+                
+                <a href="https://www.facebook.com/share/1867iRQT5D/?mibextid=wwXIfr" style="width:24px;height:24px;color:#d1d5db;display:inline-flex;" aria-label="Facebook">
+                  <svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%;">
+                    <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                  </svg>
+                </a>
+      
+                <a href="https://www.instagram.com/hackers.cloud?igsh=MXVhZjkyejVjYnZ5cQ==" style="width:24px;height:24px;color:#d1d5db;display:inline-flex;" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%;">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </a>
+      
+                <a href="mailto:hackerscloudteamhelps@gmail.com" style="width:24px;height:24px;color:#d1d5db;display:inline-flex;" aria-label="Gmail">
+                  <svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%;">
+                    <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 15.64l-6.545-3.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-1.356 1.517-2.161 2.636-1.39l9.364 5.617 9.364-5.617c1.119-.77 2.636.034 2.636 1.39z"/>
+                  </svg>
+                </a>
+      
+                <a href="https://t.me/ProfessionalHackerZeit" style="width:24px;height:24px;color:#d1d5db;display:inline-flex;" aria-label="Telegram">
+                  <svg viewBox="0 0 24 24" fill="currentColor" style="width:100%;height:100%;">
+                    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.891 7c.148 0 .278.046.39.139.112.092.158.213.139.36l-1.904 8.96c-.014.058-.04.118-.078.179-.038.061-.086.11-.143.146a.434.434 0 0 1-.226.054c-.078 0-.154-.018-.226-.054l-2.618-1.929-1.436 1.383c-.092.088-.201.132-.328.132-.054 0-.107-.008-.159-.025a.39.39 0 0 1-.233-.193l-.932-3.057-2.583-.806c-.159-.05-.239-.161-.239-.334 0-.138.084-.234.253-.288l10.422-4.01c.058-.021.114-.031.168-.031z"/>
+                  </svg>
+                </a>
+      
+              </div>
+            </div>
+      
+          </div>
+      
+          <div style="border-top:1px solid #374151;padding-top:2rem;text-align:center;font-size:0.875rem;">
+            <p style="margin:0;">© 2011 – 2026 HACKER'S CLOUD | Find Expert Professional Hackers. All rights reserved.</p>
+          </div>
+      
+        </div>
+      </footer>
+    <script>
+        function toggleFAQ(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.faq-icon');
+
+            content.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

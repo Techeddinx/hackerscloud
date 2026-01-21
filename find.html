@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Finder - Matrix Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0f0;
+        }
+
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .search-box {
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+            text-align: center;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            }
+            to {
+                box-shadow: 0 0 40px rgba(0, 255, 0, 0.7);
+            }
+        }
+
+        .search-box h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .search-btn {
+            background: #000;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .search-btn:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .search-algorithm {
+            display: none;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.7);
+            min-width: 400px;
+        }
+
+        .search-algorithm.active {
+            display: block;
+        }
+
+        .scan-line {
+            margin: 10px 0;
+            font-size: 14px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #000;
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #0f0;
+            width: 0;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px #0f0;
+        }
+
+        .hacker-profile {
+            display: none;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.7);
+            max-width: 500px;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        .hacker-profile.active {
+            display: block;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #0f0;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #0f0;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .profile-title {
+            color: #0f0;
+            opacity: 0.8;
+        }
+
+        .profile-details {
+            margin: 20px 0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .detail-label {
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .detail-value {
+            color: #0f0;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            flex: 1;
+            background: #000;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .action-btn:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .contact-info {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #0f0;
+            border-radius: 5px;
+        }
+
+        .contact-info.active {
+            display: block;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            gap: 10px;
+        }
+
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .contact-link {
+            color: #0f0;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            text-shadow: 0 0 10px #0f0;
+        }
+    </style>
+</head>
+<body>
+    <header style="background-color:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.1);position:sticky;top:0;z-index:50;">
+        <div style="max-width:1200px;margin:0 auto;padding:0 1rem;">
+      
+          <!-- Header Content -->
+          <div style="display:flex;align-items:center;justify-content:space-between;height:64px;">
+      
+            <!-- Logo -->
+            <div style="flex-shrink:0;">
+              <a href="index.html" style="text-decoration:none;">
+                <img src="./images/hacker.png" alt="Company Logo" style="height:45px;">
+              </a>
+            </div>
+      
+            <!-- Desktop Navigation -->
+            <nav style="display:flex;gap:2rem;align-items:center;" class="desktop-nav">
+              <a href="./index.html" style="color:#374151;text-decoration:none;font-weight:500;">Home</a>
+              <a href="how.html" style="color:#374151;text-decoration:none;font-weight:500;">How it Works</a>
+              <a href="payment.html" style="color:#374151;text-decoration:none;font-weight:500;">Payment</a>
+              
+            </nav>
+      
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" style="display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;" id="menuBtn">
+              <span style="width:25px;height:3px;background:#374151;border-radius:2px;"></span>
+              <span style="width:25px;height:3px;background:#374151;border-radius:2px;"></span>
+              <span style="width:25px;height:3px;background:#374151;border-radius:2px;"></span>
+            </button>
+      
+          </div>
+      
+          <!-- Mobile Navigation -->
+          <nav id="mobileMenu" style="display:none;flex-direction:column;padding:1rem 0;border-top:1px solid #e5e7eb;">
+            <a href="./index.html" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">Home</a>
+            <a href="how.html" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">How it Works</a>
+            <a href="payment.html" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">Payment</a>
+            <a href="hacker-profile.html" style="padding:0.75rem 1rem;color:#374151;text-decoration:none;font-weight:500;">Find a Hacker</a>
+          </nav>
+      
+        </div>
+      </header>
+    <canvas id="matrix-canvas"></canvas>
+    
+    <div class="container">
+        <div class="search-box" id="searchBox">
+            <h1>[ HACKER FINDER PORTAL ]</h1>
+            <button class="search-btn" id="searchBtn">Search for Available Hacker</button>
+        </div>
+
+        <div class="search-algorithm" id="searchAlgorithm">
+            <div id="scanLines"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="hacker-profile" id="hackerProfile">
+            <div class="profile-header">
+                <img src="./images/icon1.png" alt="Hacker Avatar" class="profile-img">
+                <div class="profile-name" id="hackerName">CYPHER_X</div>
+                <div class="profile-title">Elite Security Specialist</div>
+            </div>
+
+            <div class="profile-details">
+                <div class="detail-row">
+                    <span class="detail-label">Experience:</span>
+                    <span class="detail-value">8 Years</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Specialization:</span>
+                    <span class="detail-value">Penetration Testing, Social network expert</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Skills:</span>
+                    <span class="detail-value">Python, C++, Network Security</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Completed Jobs:</span>
+                    <span class="detail-value">247</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Success Rate:</span>
+                    <span class="detail-value">99.2%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Price Range:</span>
+                    <span class="detail-value">$500 - $5000/project</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Availability:</span>
+                    <span class="detail-value">Available Now</span>
+                </div>
+            </div>
+
+            <div class="contact-info" id="contactInfo">
+                <div class="contact-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" alt="Instagram" class="contact-icon">
+                    <a href="https://www.instagram.com/hackerscloud90?igsh=MXVhZjkyejVjYnZ5cQ==" class="contact-link">instagram.com/HACKERSCLOUD90</a>
+                </div>
+            
+                <div class="contact-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email" class="contact-icon">
+                    <a href="hackerscloudteamhelps@gmail.com" class="contact-link">hackerscloudteamhelps@gmail.com</a>
+                </div>
+            
+                <div class="contact-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" class="contact-icon">
+                    <a href="https://t.me/ProfessionalHackerZeit" class="contact-link">t.me/HACKERSCLOUD90</a>
+                </div>
+            
+                <div class="contact-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="contact-icon">
+                    <a href="https://www.facebook.com/share/1867iRQT5D/?mibextid=wwXIfr" class="contact-link">facebook.com/hackerscloud</a>
+                </div>
+                <div class="contact-item">
+                    <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Phone" class="contact-icon">
+                    <a href="tel:+1 15485059176" class="contact-link">+1 15485059176</a>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <button class="action-btn" id="hireBtn">Click to Hire</button>
+                <button class="action-btn" id="backBtn">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Animation
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Search Functionality
+        const searchBox = document.getElementById('searchBox');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchAlgorithm = document.getElementById('searchAlgorithm');
+        const hackerProfile = document.getElementById('hackerProfile');
+        const scanLines = document.getElementById('scanLines');
+        const progressFill = document.getElementById('progressFill');
+        const hireBtn = document.getElementById('hireBtn');
+        const backBtn = document.getElementById('backBtn');
+        const contactInfo = document.getElementById('contactInfo');
+
+        const scanMessages = [
+            '> Initializing quantum scanner...',
+            '> Connecting to network web nodes...',
+            '> Scanning encrypted databases...',
+            '> Decrypting security protocols...',
+            '> Analyzing skill matrices...',
+            '> Cross-referencing credentials...',
+            '> Validating certifications...',
+            '> Computing compatibility scores...',
+            '> Finalizing search parameters...',
+            '> Match found! Loading profile...'
+        ];
+
+        searchBtn.addEventListener('click', () => {
+            searchBox.style.display = 'none';
+            searchAlgorithm.classList.add('active');
+            
+            let progress = 0;
+            let messageIndex = 0;
+
+            const progressInterval = setInterval(() => {
+                progress += 2;
+                progressFill.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 100);
+
+            const messageInterval = setInterval(() => {
+                if (messageIndex < scanMessages.length) {
+                    const scanLine = document.createElement('div');
+                    scanLine.className = 'scan-line';
+                    scanLine.textContent = scanMessages[messageIndex];
+                    scanLine.style.animationDelay = '0s';
+                    scanLines.appendChild(scanLine);
+                    messageIndex++;
+                } else {
+                    clearInterval(messageInterval);
+                }
+            }, 500);
+
+            setTimeout(() => {
+                searchAlgorithm.classList.remove('active');
+                hackerProfile.classList.add('active');
+                scanLines.innerHTML = '';
+                progressFill.style.width = '0';
+            }, 5000);
+        });
+
+        hireBtn.addEventListener('click', () => {
+            contactInfo.classList.toggle('active');
+            hireBtn.textContent = contactInfo.classList.contains('active') ? 'Hide Contact' : 'Click to Hire';
+        });
+
+        backBtn.addEventListener('click', () => {
+            window.location.href = './index.html';
+        });
+    </script>
+   
+      
+</body>
+</html>
